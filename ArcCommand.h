@@ -10,9 +10,10 @@
 #define HEADER1        "UnArc 0.60RC "
 #define HEADER2        "  http://freearc.org  2009-10-05 (link seems dead)\n"
 
+#include "ArcStructure.h"
 
 /******************************************************************************
-** Callbacks для выполняемой команды ******************************************
+** Callbacks РґР»СЏ РІС‹РїРѕР»РЅСЏРµРјРѕР№ РєРѕРјР°РЅРґС‹ ******************************************
 ******************************************************************************/
 class COMMAND;
 
@@ -43,30 +44,36 @@ public:
 
 
 /******************************************************************************
-** Информация о выполняемой деархиватором команде *****************************
+** РРЅС„РѕСЂРјР°С†РёСЏ Рѕ РІС‹РїРѕР»РЅСЏРµРјРѕР№ РґРµР°СЂС…РёРІР°С‚РѕСЂРѕРј РєРѕРјР°РЅРґРµ *****************************
 ******************************************************************************/
 class COMMAND
 {
 public:
-  char cmd;             // Выполняемая команда
-  FILENAME arcname;     // Имя обрабатываемого командой архива
-  FILENAME *filenames;  // Имена обрабатываемых командой файлов из архива
-  MYDIR    outpath;     // Каталог, куда распаковываются файлы (опция -dp или временный)
-  MYDIR    workdir;     // Каталог для временных файлов
-  MYFILE   runme;       // Файл, запускаемый после распаковки
-  BOOL tempdir;         // Мы извлекали файлы во временный каталог?
-  BOOL wipeoutdir;      // Удалить файлы из outpath после завершения работы runme?
-  BOOL ok;              // Команда выполняется успешно?
-  int  silent;          // Опция -s
-  BOOL yes;             // Опция -o+
-  BOOL no;              // Опция -o-
-  BOOL noarcext;        // Опция --noarcext
-  BOOL nooptions;       // Опция --
+  char cmd;             // Р’С‹РїРѕР»РЅСЏРµРјР°СЏ РєРѕРјР°РЅРґР°
+  FILENAME arcname;     // РРјСЏ РѕР±СЂР°Р±Р°С‚С‹РІР°РµРјРѕРіРѕ РєРѕРјР°РЅРґРѕР№ Р°СЂС…РёРІР°
+  FILENAME *filenames;  // РРјРµРЅР° РѕР±СЂР°Р±Р°С‚С‹РІР°РµРјС‹С… РєРѕРјР°РЅРґРѕР№ С„Р°Р№Р»РѕРІ РёР· Р°СЂС…РёРІР°
+  MYDIR    outpath;     // РљР°С‚Р°Р»РѕРі, РєСѓРґР° СЂР°СЃРїР°РєРѕРІС‹РІР°СЋС‚СЃСЏ С„Р°Р№Р»С‹ (РѕРїС†РёСЏ -dp РёР»Рё РІСЂРµРјРµРЅРЅС‹Р№)
+  MYDIR    workdir;     // РљР°С‚Р°Р»РѕРі РґР»СЏ РІСЂРµРјРµРЅРЅС‹С… С„Р°Р№Р»РѕРІ
+  MYFILE   runme;       // Р¤Р°Р№Р», Р·Р°РїСѓСЃРєР°РµРјС‹Р№ РїРѕСЃР»Рµ СЂР°СЃРїР°РєРѕРІРєРё
+  BOOL tempdir;         // РњС‹ РёР·РІР»РµРєР°Р»Рё С„Р°Р№Р»С‹ РІРѕ РІСЂРµРјРµРЅРЅС‹Р№ РєР°С‚Р°Р»РѕРі?
+  BOOL wipeoutdir;      // РЈРґР°Р»РёС‚СЊ С„Р°Р№Р»С‹ РёР· outpath РїРѕСЃР»Рµ Р·Р°РІРµСЂС€РµРЅРёСЏ СЂР°Р±РѕС‚С‹ runme?
+  BOOL ok;              // РљРѕРјР°РЅРґР° РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ СѓСЃРїРµС€РЅРѕ?
+  int  silent;          // РћРїС†РёСЏ -s
+  BOOL yes;             // РћРїС†РёСЏ -o+
+  BOOL no;              // РћРїС†РёСЏ -o-
+  BOOL noarcext;        // РћРїС†РёСЏ --noarcext
+  BOOL nooptions;       // РћРїС†РёСЏ --
 
-  COMMAND (int argc, char *argv[]);                      // Разбор командной строки
-  void Prepare();                                        // Приготовиться к выполнению команды
-  bool list_cmd()  {return cmd=='l' || cmd=='v';}        // TRUE, если это команда получения листинга архива
-  BOOL accept_file (DIRECTORY_BLOCK *dirblock, int i);   // TRUE, если i-й файл каталога dirblock следует включить в обработку
+  COMMAND (int argc,
+#if defined(FREEARC_WIN) && !defined(FREEARC_LIBRARY)
+           wchar_t *wargv[]
+#else
+           char *argv[]
+#endif
+          );                      // Р Р°Р·Р±РѕСЂ РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё
+  void Prepare();                                        // РџСЂРёРіРѕС‚РѕРІРёС‚СЊСЃСЏ Рє РІС‹РїРѕР»РЅРµРЅРёСЋ РєРѕРјР°РЅРґС‹
+  bool list_cmd()  {return cmd=='l' || cmd=='v';}        // TRUE, РµСЃР»Рё СЌС‚Рѕ РєРѕРјР°РЅРґР° РїРѕР»СѓС‡РµРЅРёСЏ Р»РёСЃС‚РёРЅРіР° Р°СЂС…РёРІР°
+  BOOL accept_file (DIRECTORY_BLOCK *dirblock, int i);   // TRUE, РµСЃР»Рё i-Р№ С„Р°Р№Р» РєР°С‚Р°Р»РѕРіР° dirblock СЃР»РµРґСѓРµС‚ РІРєР»СЋС‡РёС‚СЊ РІ РѕР±СЂР°Р±РѕС‚РєСѓ
 };
 
 
@@ -118,26 +125,33 @@ void RegisterExternalCompressors (char *progname)
 
 
 /******************************************************************************
-** Разбор командной строки ****************************************************
+** Р Р°Р·Р±РѕСЂ РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё ****************************************************
 ******************************************************************************/
-COMMAND::COMMAND (int argc, char *argv[])
+COMMAND::COMMAND (int argc,
+#if defined(FREEARC_WIN) && !defined(FREEARC_LIBRARY)
+                  wchar_t *wargv[]
+#else
+                  char *argv[]
+#endif
+                 )
 {
 #if defined(FREEARC_WIN) && !defined(FREEARC_LIBRARY)
-  // Instead of those ANSI-codepage encoded argv[] strings provide true UTF-8 data!
-  WCHAR **argv_w = CommandLineToArgvW (GetCommandLineW(), &argc);
-  argv_w[0] = (WCHAR*) malloc (MY_FILENAME_MAX * 4);
-  GetExeName (argv_w[0], MY_FILENAME_MAX * 2);
-
-  argv = (char**) malloc ((argc+1) * sizeof(*argv));
-  for (int i=0; i<argc; i++)
-  {
-    argv[i] = (char*) malloc (_tcslen (argv_w[i]) * 4 + 1);
-    utf16_to_utf8 (argv_w[i], argv[i]);
-    argv[i] = (char*) realloc (argv[i], strlen(argv[i]) + 1);
+  // Convert wide argv to UTF-8
+  char **argv = (char**) malloc((argc+1) * sizeof(char*));
+  WCHAR *exe_wide = (WCHAR*) malloc(MY_FILENAME_MAX * 4);
+  wcscpy(exe_wide, wargv[0]);
+  GetExeName(exe_wide, MY_FILENAME_MAX * 2);
+  argv[0] = (char*) malloc(MY_FILENAME_MAX * 4);
+  utf16_to_utf8(exe_wide, argv[0]);
+  for (int i = 1; i < argc; i++) {
+    argv[i] = (char*) malloc(wcslen(wargv[i]) * 4 + 1);
+    utf16_to_utf8(wargv[i], argv[i]);
+    argv[i] = (char*) realloc(argv[i], strlen(argv[i]) + 1);
   }
   argv[argc] = NULL;
-  free (argv_w[0]);
+  free(exe_wide);
 #endif
+
   // Register external compressors using arc.ini in the same dir as argv[0]
   RegisterExternalCompressors(argv[0]);
 
@@ -281,7 +295,7 @@ COMMAND::COMMAND (int argc, char *argv[])
 }
 
 
-// Приготовиться к выполнению команды
+// РџСЂРёРіРѕС‚РѕРІРёС‚СЊСЃСЏ Рє РІС‹РїРѕР»РЅРµРЅРёСЋ РєРѕРјР°РЅРґС‹
 void COMMAND::Prepare()
 {
   SetTempDir (workdir.filename);
@@ -289,14 +303,13 @@ void COMMAND::Prepare()
 }
 
 
-// TRUE, если i-й файл каталога dirblock следует включить в обработку
+// TRUE, РµСЃР»Рё i-Р№ С„Р°Р№Р» РєР°С‚Р°Р»РѕРіР° dirblock СЃР»РµРґСѓРµС‚ РІРєР»СЋС‡РёС‚СЊ РІ РѕР±СЂР°Р±РѕС‚РєСѓ
 BOOL COMMAND::accept_file (DIRECTORY_BLOCK *dirblock, int i)
 {
-  if (!*filenames)  return TRUE;            // В командной строке не указано ни одного имени файла - значит, нужно обрабатывать любой файл
+  if (!*filenames)  return TRUE;            // Р’ РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРµ РЅРµ СѓРєР°Р·Р°РЅРѕ РЅРё РѕРґРЅРѕРіРѕ РёРјРµРЅРё С„Р°Р№Р»Р° - Р·РЅР°С‡РёС‚, РЅСѓР¶РЅРѕ РѕР±СЂР°Р±Р°С‚С‹РІР°С‚СЊ Р»СЋР±РѕР№ С„Р°Р№Р»
   for (FILENAME *f=filenames; *f; f++) {
     if (strequ (dirblock->name[i], *f))
-      return TRUE;                          // О! Совпало!
+      return TRUE;                          // Рћ! РЎРѕРІРїР°Р»Рѕ!
   }
-  return FALSE;                             // Совпадающего имени не найдено
+  return FALSE;                             // РЎРѕРІРїР°РґР°СЋС‰РµРіРѕ РёРјРµРЅРё РЅРµ РЅР°Р№РґРµРЅРѕ
 }
-
