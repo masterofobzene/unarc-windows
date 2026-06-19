@@ -1,9 +1,10 @@
 CXX=g++
 
-DEFINES  = -DFREEARC_UNIX -DFREEARC_INTEL_BYTE_ORDER -DFREEARC_64BIT
+DEFINES  = -DFREEARC_64BIT
 
 Extractor_DEFINES = -DFREEARC_DECOMPRESS_ONLY -D_NO_EXCEPTIONS -DUNARC
-OBJDIR  = ./
+OBJDIR  = build/
+$(shell mkdir -p $(OBJDIR))
 LINKOBJ_FAR_PLUGIN = $(OBJDIR)/Environment.o $(OBJDIR)/Common.o $(OBJDIR)/CompressionLibrary.o \
                      $(OBJDIR)/C_LZMA.o
 LINKOBJ_TINY = $(LINKOBJ_FAR_PLUGIN) $(OBJDIR)/C_BCJ.o $(OBJDIR)/C_Dict.o $(OBJDIR)/C_Delta.o
@@ -15,7 +16,7 @@ UNARC = ArcStructure.h ArcCommand.h ArcProcess.h
 CUI = CUI.h
 HEADERS =  Compression/Compression.h Compression/Common.h
 
-UNIX_LINK_FLAGS = -L$(LIBDIR) -lstdc++ -lrt -lpthread -s
+UNIX_LINK_FLAGS = -L$(LIBDIR) -lstdc++ -lpthread -s
 
 
 CODE_FLAGS  = -fno-exceptions -fno-rtti -Wall \
@@ -24,12 +25,13 @@ OPT_FLAGS   = -ffast-math \
               -fomit-frame-pointer -fstrict-aliasing \
               -fforce-addr
 DEBUG_FLAGS = -g0
-CFLAGS = $(CODE_FLAGS) $(OPT_FLAGS) -O2 $(DEBUG_FLAGS) $(DEFINES) $(Extractor_DEFINES)
-CFLAGS1= $(CODE_FLAGS) $(OPT_FLAGS) -O1 $(DEBUG_FLAGS) $(DEFINES) $(Extractor_DEFINES)
+PLATFORM_FLAGS = -DFREEARC_WIN -DFREEARC_INTEL_BYTE_ORDER -DUNICODE -D_UNICODE
+CFLAGS = $(CODE_FLAGS) $(OPT_FLAGS) -O2 $(DEBUG_FLAGS) $(DEFINES) $(Extractor_DEFINES) $(PLATFORM_FLAGS)
+CFLAGS1= $(CODE_FLAGS) $(OPT_FLAGS) -O1 $(DEBUG_FLAGS) $(DEFINES) $(Extractor_DEFINES) $(PLATFORM_FLAGS)
 
 
 unarc: $(OBJDIR)/unarc.o $(LINKOBJ)
-	$(CXX) $< $(LINKOBJ) $(UNIX_LINK_FLAGS) -o $@
+	$(CXX) $< $(LINKOBJ) $(UNIX_LINK_FLAGS) -municode -o $(OBJDIR)/unarc
 
 clean:
 	rm -rf unarc *.o
