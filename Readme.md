@@ -37,3 +37,7 @@ Available options:
 - open a CMD and ````git clone https://github.com/xredor/unarc.git```` then ````cd unarc````
 - then make the "build" directory inside (right click New->Folder -> rename to "build" or ````mkdir -p build````)
 - run ````mkdir -p build````
+
+
+> [!NOTE]
+> I've done all this to be able to extract 1 fitgirl packed bin file, and it failed. It must be due to her compression alghoritms or something like that. Saying this because I think if you ended here, its mostly because you need to do the same. 
