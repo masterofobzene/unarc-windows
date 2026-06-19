@@ -1,15 +1,16 @@
 # unarc
 
 The `unarc` is an unpacker for ArC archives (`"ArC\1"` header), that used in some installers with `.bin` suffix.
-File tool in Linux reports `FreeArc archive <http://freearc.org>` on such archives.
-This tool completely based on https://github.com/andyvand/freearc_src implementation.
+I've forked and used some LLM magic to make it possible to compile it on Windows without satanic rituals.
+You can download the precompiled version from Releases now. 
+
+
+Tested in Windows 10 X64 only.
 
 ## Motivation
 
-- Nothing found in Download category in https://freearc.org
-- related repositories seems dead
-- Old Haskell stuff not compiled on my new The Glorious Glasgow Haskell Compilation System, version 8.4.4 and since i don't know Haskell i can't fix it 
-- Installer, GUI, all this is not necessary
+- Original repo didn't give info on how to make it compilable on Windows.
+- No precompiled release available.
 
 ## Usage
 ```
@@ -31,6 +32,7 @@ Available options:
 
 ## Building
 
-- First check `Makefile` and fix `DEFINES`: remove `-DFREEARC_64BIT` on 32 bit platform
-- Then run `make` or `make -j N`
-- Install manually
+- install mingw64 if you don't have it. Check that you have the corresponding environment variables.
+- open a CMD and ````git clone https://github.com/xredor/unarc.git```` then ````cd unarc````
+- then make the "build" directory inside (right click New->Folder or ````mkdir -p build````)
+- run ````mkdir -p build````
