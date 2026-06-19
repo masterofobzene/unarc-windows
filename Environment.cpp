@@ -263,12 +263,12 @@ int GetProcessorsCount (void)
 void FormatDateTime (char *buf, int bufsize, time_t t)
 {
   struct tm *p;
-  if (t==-1)  t=0;  // Иначе получим вылет :(
+  if (t==-1)  t=0;  // РРЅР°С‡Рµ РїРѕР»СѓС‡РёРј РІС‹Р»РµС‚ :(
   p = localtime(&t);
   strftime( buf, bufsize, "%Y-%m-%d %H:%M:%S", p);
 }
 
-// Максимальная длина имени файла
+// РњР°РєСЃРёРјР°Р»СЊРЅР°СЏ РґР»РёРЅР° РёРјРµРЅРё С„Р°Р№Р»Р°
 int long_path_size (void)
 {
   return MY_FILENAME_MAX;
@@ -319,7 +319,7 @@ uint UpdateCRC( void *Addr, uint Size, uint StartCRC)
   return(StartCRC);
 }
 
-// Вычислить CRC блока данных
+// Р’С‹С‡РёСЃР»РёС‚СЊ CRC Р±Р»РѕРєР° РґР°РЅРЅС‹С…
 uint CalcCRC( void *Addr, uint Size)
 {
   return UpdateCRC (Addr, Size, INIT_CRC) ^ INIT_CRC;
@@ -327,7 +327,7 @@ uint CalcCRC( void *Addr, uint Size)
 
 
 
-// От-xor-ить два блока данных
+// РћС‚-xor-РёС‚СЊ РґРІР° Р±Р»РѕРєР° РґР°РЅРЅС‹С…
 void memxor (char *dest, char *src, uint size)
 {
   if (size) do
@@ -335,7 +335,7 @@ void memxor (char *dest, char *src, uint size)
   while (--size);
 }
 
-// Вернуть имя файла без имени каталога
+// Р’РµСЂРЅСѓС‚СЊ РёРјСЏ С„Р°Р№Р»Р° Р±РµР· РёРјРµРЅРё РєР°С‚Р°Р»РѕРіР°
 FILENAME basename (FILENAME fullname)
 {
   char *basename = fullname;
@@ -360,8 +360,8 @@ FILENAME basename (FILENAME fullname)
 #define initRandomData(rand_buf, rand_size)  \
                                  char *rand_ptr=(rand_buf), *rand_end=(rand_buf)+(rand_size)
 #define addRandomData(ptr,size)  (memcpy (rand_ptr, (ptr), mymin((size),rand_end-rand_ptr)), rand_ptr+=mymin((size),rand_end-rand_ptr))
-#define addRandomLong(value)     {long n=(value); addRandomData(&n, sizeof(long));}
-#define addRandomValue(value)    addRandomLong((long) value)
+#define addRandomLong(value)     {LONG_PTR n=(LONG_PTR)(value); addRandomData(&n, sizeof(n));}
+#define addRandomValue(value)    addRandomLong((LONG_PTR)(value))
 
 
 /* Map a value that may be 32 or 64 bits depending on the platform to a long */
@@ -380,7 +380,7 @@ int systemRandomData (char *rand_buf, int rand_size)
 #ifdef FREEARC_WIN
 
 	FILETIME  creationTime, exitTime, kernelTime, userTime;
-	DWORD minimumWorkingSetSize, maximumWorkingSetSize;
+	SIZE_T minimumWorkingSetSize, maximumWorkingSetSize;
 	LARGE_INTEGER performanceCount;
 	MEMORYSTATUS memoryStatus;
 	HANDLE handle;
@@ -528,4 +528,3 @@ int systemRandomData (char *rand_buf, int rand_size)
 *                                           Random system values collection *
 *
 ****************************************************************************/
-
