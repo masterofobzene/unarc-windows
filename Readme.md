@@ -1,6 +1,7 @@
 # unarc
 
 The `unarc` is an unpacker for ArC archives (`"ArC\1"` header), that used in some installers with `.bin` suffix.
+
 I've forked and used some LLM magic to make it possible to compile it on Windows without satanic rituals.
 You can download the precompiled version from Releases now. 
 
