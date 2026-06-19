@@ -34,5 +34,5 @@ Available options:
 
 - install mingw64 if you don't have it. Check that you have the corresponding environment variables.
 - open a CMD and ````git clone https://github.com/xredor/unarc.git```` then ````cd unarc````
-- then make the "build" directory inside (right click New->Folder or ````mkdir -p build````)
+- then make the "build" directory inside (right click New->Folder -> rename to "build" or ````mkdir -p build````)
 - run ````mkdir -p build````
