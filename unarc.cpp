@@ -21,7 +21,7 @@ void UnarcQuit()
 #include "CUI.h"
 CUI UI;
 
-int main (int argc, char *argv[])
+int wmain (int argc, wchar_t *argv[])
 {
   UI.DisplayHeader (HEADER1 NAME);
   COMMAND command (argc, argv);    // Распарсить команду
