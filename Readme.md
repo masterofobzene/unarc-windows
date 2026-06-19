@@ -6,7 +6,7 @@ I've forked and used some LLM magic to make it possible to compile it on Windows
 You can download the precompiled version from Releases now. 
 
 
-Tested in Windows 10 X64 only.
+Tested on Windows 10 X64 only.
 
 ## Motivation
 
